@@ -187,7 +187,7 @@ if (interaction.customId === "afk") {
         saveData();
 
         return interaction.reply({
-            content: "✅ اختبار الغفوة الجديد شغال",
+            content: "😴 تم تفعيل الغفوة، تم تجميد الوقت.",
             ephemeral: true
         });
 
