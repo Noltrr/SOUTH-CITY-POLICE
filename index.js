@@ -193,23 +193,6 @@ if (interaction.customId === "afk") {
 
     } else {
 
-        const afkTime = Date.now() - users[id].afkStart;
-
-        } else {
-
-    users[id].afk = false;
-    users[id].afkStart = null;
-
-    users[id].login = Date.now();
-
-    saveData();
-
-    return interaction.reply({
-        content: "✅ تم إنهاء الغفوة، تم استكمال الوقت.",
-        ephemeral: true
-    });
-}
-
         users[id].afk = false;
         users[id].afkStart = null;
 
