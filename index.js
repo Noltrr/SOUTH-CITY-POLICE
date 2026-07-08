@@ -34,7 +34,7 @@ function saveData() {
 client.once(Events.ClientReady, async () => {
   console.log(`${client.user.tag} جاهز`);
 
-  const channel = await client.channels.fetch("1519332111977545911");
+  const channel = await client.channels.fetch("1523857691141996564");
 
   const embed = new EmbedBuilder()
     .setColor("#0c4dce")
