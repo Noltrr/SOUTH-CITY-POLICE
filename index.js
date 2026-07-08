@@ -169,7 +169,6 @@ if (users[id].afk && users[id].afkStart) {
         ephemeral: true
     });
 }
-
 if (interaction.customId === "afk") {
 
     if (!users[id].login) {
@@ -193,18 +192,48 @@ if (interaction.customId === "afk") {
 
     } else {
 
+        const afkTime = Date.now() - users[id].afkStart;
+
+        users[id].login += afkTime;
+
         users[id].afk = false;
         users[id].afkStart = null;
-
-        users[id].login = Date.now();
 
         saveData();
 
         return interaction.reply({
-            content: "✅ تم إنهاء الغفوة، تم استكمال الوقت.",
+            content: "✅ تم إنهاء الغفوة، تم سجل دخولك .",
             ephemeral: true
         });
     }
 }
+});
+client.on(Events.MessageCreate, async (message) => {
+
+    if (message.author.bot) return;
+
+    if (message.content.startsWith("tim")) {
+
+        const user = message.mentions.users.first();
+
+        if (!user) {
+            return message.reply("❌ منشن شخص أول.");
+        }
+
+        const id = user.id;
+
+        if (!users[id]) {
+            return message.reply("❌ ما عنده سجل وقت.");
+        }
+
+        const totalMinutes = Math.floor(users[id].total / 60);
+        const hours = Math.floor(totalMinutes / 60);
+        const minutes = totalMinutes % 60;
+
+        message.reply(
+            `⏱️ وقت <@${id}> الكلي:\n\n🕒 ${hours} ساعة و ${minutes} دقيقة`
+        );
+    }
+
 });
 client.login(process.env.TOKEN);
