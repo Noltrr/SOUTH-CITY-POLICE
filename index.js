@@ -195,7 +195,20 @@ if (interaction.customId === "afk") {
 
         const afkTime = Date.now() - users[id].afkStart;
 
-        users[id].total += afkTime / 1000;
+        } else {
+
+    users[id].afk = false;
+    users[id].afkStart = null;
+
+    users[id].login = Date.now();
+
+    saveData();
+
+    return interaction.reply({
+        content: "✅ تم إنهاء الغفوة، تم استكمال الوقت.",
+        ephemeral: true
+    });
+}
 
         users[id].afk = false;
         users[id].afkStart = null;
