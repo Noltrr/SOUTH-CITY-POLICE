@@ -67,6 +67,7 @@ client.once(Events.ClientReady, async () => {
 • أي تأخير في التسجيل قد يؤثر على سجل حضورك.
 • مع التزامك بالنظام الإداري لجميع العساكر.
 `)
+    .setThumbnail("https://cdn.discordapp.com/attachments/1518557697770000535/1519259692604330105/Untitled_design.png?ex=6a4eb499&is=6a4d6319&hm=5ef97c0df4a1bf555e9f3a4bb417c5d2e2e650b23060ef2c140bd5f0506509ba&")
     .setFooter({ text: "South City Police" });
 
   const row = new ActionRowBuilder().addComponents(
