@@ -34,7 +34,7 @@ function saveData() {
 client.once(Events.ClientReady, async () => {
   console.log(`${client.user.tag} جاهز`);
 
-  const channel = await client.channels.fetch("1523857691141996564");
+  const channel = await client.channels.fetch("1518920689422434386");
 
   const embed = new EmbedBuilder()
     .setColor("#0c4dce")
@@ -100,13 +100,14 @@ client.on(Events.InteractionCreate, async (interaction) => {
 
     const id = interaction.user.id;
 
-    if (!users[id]) {
-        users[id] = {
-            total: 0,
-            login: null,
-            afk: false
-        };
-    }
+if (!users[id]) {
+    users[id] = {
+        total: 0,
+        login: null,
+        afk: false,
+        afkStart: null
+    };
+}
 
     if (interaction.customId === "login") {
 
@@ -135,7 +136,11 @@ client.on(Events.InteractionCreate, async (interaction) => {
             });
         }
 
-        const time = Math.floor((Date.now() - users[id].login) / 1000);
+        let time = Math.floor((Date.now() - users[id].login) / 1000);
+
+if (users[id].afk && users[id].afkStart) {
+    time -= Math.floor((Date.now() - users[id].afkStart) / 1000);
+}
 
         users[id].total += time;
         users[id].login = null;
@@ -165,12 +170,45 @@ client.on(Events.InteractionCreate, async (interaction) => {
     });
 }
 
-    if (interaction.customId === "afk") {
+if (interaction.customId === "afk") {
 
+    if (!users[id].login) {
         return interaction.reply({
-            content: "🚧 نظام AFK سيتم إضافته بالخطوة القادمة.",
+            content: "❌ لازم تسجل دخول أول.",
             ephemeral: true
         });
     }
+
+    if (!users[id].afk) {
+
+        users[id].afk = true;
+        users[id].afkStart = Date.now();
+
+        saveData();
+
+        return interaction.reply({
+            content: "✅ اختبار الغفوة الجديد شغال",
+            ephemeral: true
+        });
+
+    } else {
+
+        const afkTime = Date.now() - users[id].afkStart;
+
+        users[id].total += afkTime / 1000;
+
+        users[id].afk = false;
+        users[id].afkStart = null;
+
+        users[id].login = Date.now();
+
+        saveData();
+
+        return interaction.reply({
+            content: "✅ تم إنهاء الغفوة، تم استكمال الوقت.",
+            ephemeral: true
+        });
+    }
+}
 });
 client.login(process.env.TOKEN);
