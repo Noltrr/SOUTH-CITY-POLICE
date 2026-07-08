@@ -211,30 +211,57 @@ if (interaction.customId === "afk") {
 });
 client.on(Events.MessageCreate, async (message) => {
 
-    if (message.author.bot) return;
+if (message.author.bot) return;
 
-    if (message.content.startsWith("tim")) {
 
-        const user = message.mentions.users.first();
 
-        if (!user) {
-            return message.reply("❌ منشن شخص أول.");
-        }
+if (message.channel.id !== "1524291596756193380") return;
 
-        const id = user.id;
 
-        if (!users[id]) {
-            return message.reply("❌ ما عنده سجل وقت.");
-        }
 
-        const totalMinutes = Math.floor(users[id].total / 60);
-        const hours = Math.floor(totalMinutes / 60);
-        const minutes = totalMinutes % 60;
+if (message.content.startsWith("tim")) {
 
-        message.reply(
-            `⏱️ وقت <@${id}> الكلي:\n\n🕒 ${hours} ساعة و ${minutes} دقيقة`
-        );
+
+
+    const user = message.mentions.users.first();
+
+
+
+    if (!user) {
+
+        return message.reply("❌ منشن شخص أول.");
+
     }
+
+
+
+    const id = user.id;
+
+
+
+    if (!users[id]) {
+
+        return message.reply("❌ ما عنده سجل وقت.");
+
+    }
+
+
+
+    const totalMinutes = Math.floor(users[id].total / 60);
+
+    const hours = Math.floor(totalMinutes / 60);
+
+    const minutes = totalMinutes % 60;
+
+
+
+    message.reply(
+
+        `⏱️ وقت <@${id}> الكلي:\n\n🕒 ${hours} ساعة و ${minutes} دقيقة`
+
+    );
+
+}
 
 });
 client.login(process.env.TOKEN);
